@@ -3,6 +3,7 @@ from bottle import Bottle, route, run, request, static_file
 from bottle import redirect, template, response
 
 
+
 app = Bottle()
 ctl = Application()
 
@@ -21,7 +22,13 @@ def helper(info= None):
 
 #-----------------------------------------------------------------------------
 # Suas rotas aqui:
+@app.route('/')
+def menu(info=None):
+    return ctl.render('menu')
 
+@app.route('/carros')
+def carros(info= None):
+    return ctl.render('carros')
 
 
 #-----------------------------------------------------------------------------
