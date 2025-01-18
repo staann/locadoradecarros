@@ -1,11 +1,12 @@
 from app.controllers.application import Application
 from bottle import Bottle, route, run, request, static_file
 from bottle import redirect, template, response
-import sqlite3
+
 
 
 app = Bottle()
 ctl = Application()
+
 
 
 #-----------------------------------------------------------------------------
@@ -24,19 +25,32 @@ def helper(info= None):
 # Suas rotas aqui:
 @app.route('/')
 def menu(info=None):
-    return ctl.render('menu')
+    return ctl.render('home')
 
 @app.route('/carros')
 def carros(info= None):
     return ctl.render('carros')
 
-@app.route('/cadastrar_carro')
-def mostra_form_cadastro_carros(info=None):
-    return ctl.render('cadastrar_carro')
+@app.route('/mostra_form_cadastro_carros/<id>', methods=['POST', 'GET'])
+@app.route('/mostra_form_cadastro_carros')
+def mostra_form_cadastro_carros(id=None):
+    #Se id for none, estamos vindo da tela de cadastro de carro novo.
+    #Se houver id, estamos vindo da tela de altercao
+    if id:
+        return ctl.render('cadastrar_carro',id)
+    else:
+        return ctl.render('cadastrar_carro')
 
 @app.route('/processar_cadastro_carro', method='POST')
-def processar_cadastro(info=None):
+def processar_cadastro_carro():
     return ctl.render('processar_cadastro_carro')
+        
+    
+
+@app.route('/processar_exclusao_carro/<id>', methods=['POST', 'GET'])
+def processar_exclusao_carro(id):
+    print(f'o id eh:{id}')
+    return ctl.render('processar_exclusao_carro',id)
 
 
 #-----------------------------------------------------------------------------

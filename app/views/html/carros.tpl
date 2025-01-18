@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluguel de Carros - Página Inicial</title>
-    <link rel="stylesheet" href="static/css/carros.css"> <!-- Adicione um arquivo CSS para estilização -->
-</head>
-<header>
-    <nav>
-        <div class="logo" >
-            <h1>AlugaCar</h1>
-        </div>
-        <ul class="menu">
-            <li><a href="#sobre">Sobre</a></li>
-            <li><a href="/carros">Veículos</a></li>
-            <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#contato">Contato</a></li>
-        </ul>
-        <div class="login">
-            <a href="login.html" class="botao">Entrar</a>
-        </div>
-    </nav>
-</header>
+% rebase('app/views/html/menu.tpl',title='carros')
 <body>
     <div style="text-align: center;" >
         <h2>Listagem dos carros</h2>
@@ -34,6 +11,7 @@
                     <th>Categoria</th>
                     <th>Preço Diária</th>
                     <th>Disponível</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,11 +23,16 @@
                         <td>{{ carro.categoria }}</td>
                         <td>{{ carro.preco_por_dia }}</td>
                         <td>{{'Disponivel' if carro.status else 'Indisponivel'}}</td>
+                        <td>
+                            <a href="/mostra_form_cadastro_carros/{{carro.id}}"><i class="fa fa-pencil fa-lg  mr-3" style="color: black" ></i></a>  
+                            <a href="/processar_exclusao_carro/{{carro.id}}"><i class="fa fa-trash fa-lg  mr-3" style="color: black" ></i></a> 
+                            <a href="/mostra_form_aluguel/{{carro.id}}"><i class="fa fa-car fa-lg  mr-3" style="color: black" ></i></a> 
+                        </td>
                     </tr>
                 % end
             </tbody>
         </table>
-        <a href="/cadastrar_carro">Cadastrar novo carro</a>
+        <a href="/mostra_form_cadastro_carros">Cadastrar novo carro</a>
     </div>
 </body>
 </html>
