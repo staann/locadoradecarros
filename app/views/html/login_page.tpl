@@ -17,7 +17,8 @@
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit" class="btn">Entrar</button>
+            <p><a href="REDIRECIONAMENTO1">Esqueceu sua senha?</a> <a href="REDIRECIONAMENTO2">Cadastre-se.</a> </p>
+            <button type="submit" class="btn">Entrar</button>      
         </form>
     </div>
 </body>
