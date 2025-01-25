@@ -49,6 +49,7 @@
         </div>
     </section>
 
+    <footer>
     <section id="contato" class="contato">
         <div class="container">
             <h2>Entre em Contato</h2>
@@ -66,4 +67,5 @@
             </form>
         </div>
     </section>
+    <footer>
 
