@@ -1,4 +1,4 @@
-body {
+.body-menu {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -17,24 +17,24 @@ h1, h2, h3 {
 }
 
 /* Header */
-header {
+.header {
     background: #004aad;
     color: #fff;
     padding: 1rem 0;
 }
 
-header nav {
+.header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-header .logo h1 {
+.header .logo h1 {
     margin: 0;
     font-size: 1.5rem;
 }
 
-header .menu {
+.header .menu {
     list-style: none;
     display: flex;
     gap: 1.5rem;
@@ -42,17 +42,17 @@ header .menu {
     padding: 0;
 }
 
-header .menu li {
+.header .menu li {
     display: inline;
 }
 
-header .menu a {
+.header .menu a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
 }
 
-header .botao {
+.header .botao {
     background: #fff;
     color: #004aad;
     padding: 0.5rem 1rem;
@@ -61,7 +61,7 @@ header .botao {
     font-weight: bold;
 }
 
-header .botao:hover {
+.header .botao:hover {
     background: #003080;
     color: #fff;
 }
@@ -135,6 +135,7 @@ section {
 }
 
 /* Formulário */
+/*
 form {
     max-width: 600px;
     margin: 0 auto;
@@ -168,6 +169,7 @@ form button {
 form button:hover {
     background: #003080;
 }
+*/
 
 /* Footer */
 footer {

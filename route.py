@@ -53,6 +53,11 @@ def processar_exclusao_carro(id):
     return ctl.render('processar_exclusao_carro',id)
 
 
+@app.route('/login_page')
+def login():
+    return ctl.render('login_page')
+
+
 #-----------------------------------------------------------------------------
 
 

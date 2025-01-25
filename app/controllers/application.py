@@ -16,7 +16,7 @@ class Application():
     def __init__(self):
         self.pages = { 'carros': self.carros, 'home': self.home, 
         'cadastrar_carro': self.cadastrar_carro, 'processar_cadastro_carro': self.processar_cadastro_carro,
-        'processar_exclusao_carro': self.processar_exclusao_carro
+        'processar_exclusao_carro': self.processar_exclusao_carro, 'login_page': self.login_page
         }
 
 
@@ -72,3 +72,6 @@ class Application():
     def processar_exclusao_carro(self,id):
         excluir_carro(id)
         return redirect('/carros')
+    
+    def login_page(self):
+        return template('app/views/html/login_page')

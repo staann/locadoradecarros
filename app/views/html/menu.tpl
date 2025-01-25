@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <header>
+<body class = "body-menu">
+    <header class="header">
         <nav>
             <div class="logo">
                 <h1>AlugaCar</h1>
@@ -21,7 +21,7 @@
                 <li><a href="#contato">Contato</a></li>
             </ul>
             <div class="login">
-                <a href="login.html" class="botao">Entrar</a>
+                <a href="/login_page" class="botao">Entrar</a>
             </div>
         </nav>
     </header>
