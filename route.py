@@ -57,6 +57,14 @@ def processar_exclusao_carro(id):
 def login():
     return ctl.render('login_page')
 
+@app.route('/paginaCadastro')
+def login():
+    return ctl.render('paginaCadastro')
+
+@app.route('/paginaEsqueceuSenha')
+def login():
+    return ctl.render('paginaEsqueceuSenha')
+
 
 #-----------------------------------------------------------------------------
 
