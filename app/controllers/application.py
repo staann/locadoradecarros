@@ -16,7 +16,8 @@ class Application():
     def __init__(self):
         self.pages = { 'carros': self.carros, 'home': self.home, 
         'cadastrar_carro': self.cadastrar_carro, 'processar_cadastro_carro': self.processar_cadastro_carro,
-        'processar_exclusao_carro': self.processar_exclusao_carro, 'login_page': self.login_page
+        'processar_exclusao_carro': self.processar_exclusao_carro, 'login_page': self.login_page,
+        'paginaCadastro': self.paginaCadastro, 'paginaEsqueceuSenha' : self.paginaEsqueceuSenha
         }
 
 
@@ -75,3 +76,9 @@ class Application():
     
     def login_page(self):
         return template('app/views/html/login_page')
+    
+    def paginaCadastro(self):
+        return template('app/views/html/paginaCadastro')
+    
+    def paginaEsqueceuSenha(self):
+        return template('app/views/html/paginaEsqueceuSenha')

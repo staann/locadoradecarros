@@ -7,17 +7,17 @@
 </head>
 <body class="body-login">
     <div class="login-container">
-        <h1>Login</h1>
+        <h1>Recuperação de senha:</h1>
         <form action="/login" method="post">
             <div class="form-group">
                 <label for="username">Usuário:</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
             </div>
-            <p><a href="/paginaEsqueceuSenha">Esqueceu sua senha?</a> <a href="/paginaCadastro">Cadastre-se.</a> </p>
+            <p><a href="paginaCadastro">Cadastre-se.</a> <a href="login_page">Faça login.</a> </p>
             <button type="submit" class="btn">Entrar</button>      
         </form>
     </div>
