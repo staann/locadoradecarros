@@ -1,10 +1,13 @@
 from app.controllers.application import Application
-from bottle import Bottle, route, run, request, static_file
-from bottle import redirect, template, response
+from flask import *
+from flask import Flask
+import os
+from app.models.locadora import Locadora
 
 
 
-app = Bottle()
+app = Flask(__name__,template_folder='app/views/html',static_folder='app/static')
+app.secret_key = "chave_secreta"
 ctl = Application()
 
 
@@ -12,9 +15,9 @@ ctl = Application()
 #-----------------------------------------------------------------------------
 # Rotas:
 
-@app.route('/static/<filepath:path>')
+@app.route('/static/<path:filepath>')
 def serve_static(filepath):
-    return static_file(filepath, root='./app/static')
+    return send_from_directory(os.path.join(app.root_path, 'static'), filepath)
 
 @app.route('/helper')
 def helper(info= None):
@@ -41,7 +44,7 @@ def mostra_form_cadastro_carros(id=None):
     else:
         return ctl.render('cadastrar_carro')
 
-@app.route('/processar_cadastro_carro', method='POST')
+@app.route('/processar_cadastro_carro', methods=['POST'])
 def processar_cadastro_carro():
     return ctl.render('processar_cadastro_carro')
         
@@ -57,6 +60,25 @@ def processar_exclusao_carro(id):
 def login():
     return ctl.render('login_page')
 
+@app.route('/efetua_login', methods=['POST'])
+def efetua_login():
+    login = request.form.get('login')
+    senha = request.form.get('senha')
+    usuario = Locadora.logar_usuario(login, senha)
+
+    if usuario:
+        session['usuario_logado'] = usuario.to_dict()
+        return redirect(url_for('menu'))
+    else:
+        flash('Usuário ou senha inválidos !!','danger')
+        return redirect(url_for('login'))
+    
+@app.route("/logout")
+def logout():
+    session.pop("usuario_logado", None)  # Removendo o usuário da sessão
+    return redirect(url_for('menu'))
+
+'''
 @app.route('/paginaCadastro')
 def login():
     return ctl.render('paginaCadastro')
@@ -64,11 +86,11 @@ def login():
 @app.route('/paginaEsqueceuSenha')
 def login():
     return ctl.render('paginaEsqueceuSenha')
-
+'''
 
 #-----------------------------------------------------------------------------
 
 
 if __name__ == '__main__':
 
-    run(app, host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)

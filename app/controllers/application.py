@@ -1,7 +1,6 @@
-#from bottle import template,request,redirect
-from bottle import Bottle, run, template, request, redirect, static_file
+from flask import *
 from app.models.carro import Carro
-from app.controllers.db.banco_de_dados import *
+from app.models.locadora import Locadora
 
 
 
@@ -30,55 +29,55 @@ class Application():
 
 
     def helper(self):
-        return template('app/views/html/helper')
+        return render_template('helper.html')
     
     def carros(self):
-        lista_carros = obtem_lista_carros()
-        return template('app/views/html/carros',carros=lista_carros)
+        lista_carros = Locadora.listar_carros()
+        return render_template('carros.html',carros=lista_carros)
     
     
     def home(self):
-        return template('app/views/html/home')
+        return render_template('home.html')
 
 
     def cadastrar_carro(self,id=None):
         print(f'O id é {id}')
         #Se id for none estamos cadastrando novo carro.    
         if id:
-            carro_para_alterar = obtem_carro_por_id(id)
+            carro_para_alterar = Locadora.obtem_carro_por_id(id)
             print(carro_para_alterar)
-            return template('app/views/html/form_cadastro_carro',carro=carro_para_alterar)
+            return render_template('form_cadastro_carro.html',carro=carro_para_alterar)
         else:
-            carro=Carro(None,None,None,None,None,None,None)
-            return template('app/views/html/form_cadastro_carro',carro=carro)
+            carro=Carro(0,"","","","",0.0,True)
+            return render_template('form_cadastro_carro.html',carro=carro)
     
     def processar_cadastro_carro(self):
 
-        id = request.forms.get('id')
-        marca = request.forms.get('marca')
-        modelo = request.forms.get('modelo')
-        ano = int(request.forms.get('ano'))
-        categoria = request.forms.get('categoria')
-        preco_diaria = float(request.forms.get('preco_diaria'))
-        disponivel = True if request.forms.get('disponivel') == 'on' else False
+        id = request.form.get('id')
+        marca = request.form.get('marca')
+        modelo = request.form.get('modelo')
+        ano = int(request.form.get('ano'))
+        categoria = request.form.get('categoria')
+        preco_diaria = float(request.form.get('preco_diaria'))
+        disponivel = True if request.form.get('disponivel') == 'on' else False
 
-        if id:
+        if id !="0":
             carro = Carro(id,marca,modelo,ano,categoria,preco_diaria,disponivel)
         else:
             carro = Carro(None,marca,modelo,ano,categoria,preco_diaria,disponivel)
 
-        inserir_alterar_carro(carro)
+        Locadora.cadastrar_carro(carro)
         return redirect('/carros')
     
     def processar_exclusao_carro(self,id):
-        excluir_carro(id)
+        Locadora.excluir_carro(id)
         return redirect('/carros')
     
     def login_page(self):
-        return template('app/views/html/login_page')
+        return render_template('login_page.html')
     
     def paginaCadastro(self):
-        return template('app/views/html/paginaCadastro')
+        return render_template('paginaCadastro.html')
     
     def paginaEsqueceuSenha(self):
-        return template('app/views/html/paginaEsqueceuSenha')
+        return render_template('paginaEsqueceuSenha.html')

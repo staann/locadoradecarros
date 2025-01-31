@@ -1,6 +1,7 @@
 import sqlite3
 from pathlib import Path
 from app.models.carro import Carro
+from app.models.usuario import Usuario
 
 
 ROOT_DIR = Path(__file__).parent
@@ -26,41 +27,44 @@ cursor.execute(
     ')'
 )
 
-'''
-cursor.execute("""
-#   CREATE TABLE IF NOT EXISTS aluguel
-    (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_carro INTEGER, 
-    id_cliente INTEGER,
-    data_inicial date,
-    data_final date,
-    valor_total REAL,
-    FOREIGN KEY (id_carro) REFERENCES carros (id)
-    )
-""")
-'''
+cursor.execute(
+    f'CREATE TABLE IF NOT EXISTS usuarios'
+    '('
+    'id INTEGER PRIMARY KEY AUTOINCREMENT,'
+    'login TEXT,'
+    'nome TEXT,'
+    'cpf TEXT,'
+    'telefone TEXT,'
+    'email TEXT,'
+    'admin BOOLEAN,'
+    'senha TEXT'
+    ')'
+)
 connection.commit()
 
 cursor.close()
 connection.close()
+
+
 
 def inserir_alterar_carro(carro: Carro):
   
     connection = sqlite3.connect(DB_FILE)
     cursor = connection.cursor()
     params = (carro.marca, carro.modelo, carro.ano, carro.categoria, carro.preco_por_dia, carro.status)
+    print(carro.id)
 
     #Se tiver id entao trata-se de uma alteracao
-    if carro.id: 
-        cursor.execute(
-            f'update carros set marca=?, modelo=?, ano=?,categoria=?, diaria=?, status=? Where id='+carro.id, params
-        )
+    if carro.id != None: 
+        #sql = f'UPDATE carros set marca=?, modelo=?, ano=?,categoria=?, diaria=?, status=? WHERE id=?',(*params,carro.id)
+        sql = f'update carros set marca=?, modelo=?, ano=?,categoria=?, diaria=?, status=? Where id='+carro.id, params
+        print(sql)
     else:
-        cursor.execute(
-            f'INSERT INTO carros (marca, modelo, ano,categoria, diaria, status) VALUES (?, ?, ?, ?, ?, ?)', params
-        )
-
+        #sql = f'INSERT INTO carros (marca, modelo, ano,categoria, diaria, status) VALUES (?, ?, ?, ?, ?, ?)', (*params,)
+        sql =  f'INSERT INTO carros (marca, modelo, ano,categoria, diaria, status) VALUES (?, ?, ?, ?, ?, ?)', params
+        print(sql)
+            
+    cursor.execute(*sql)
 
     connection.commit()
     
@@ -72,7 +76,7 @@ def inserir_alterar_carro(carro: Carro):
     cursor.close()
     connection.close()
 
-def obtem_lista_carros():
+def listar_carros():
     connection = sqlite3.connect(DB_FILE)
     cursor = connection.cursor()
 
@@ -124,7 +128,21 @@ def obtem_carro_por_id(id):
     return lista_carros[0]
 
 
+def logar_usuario(login, senha):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    cursor.execute(f'SELECT id,login, nome, cpf, telefone, email, senha, admin FROM usuarios Where login = "{login}" and senha = "{senha}"')
+    resultado=cursor.fetchone()
+    cursor.close()
+    connection.close()
 
+    #se o resultado for valido criamos um objeto Usuario com ele. Caso contrario ficara com valor None.
+    if resultado:
+        usuario=Usuario(*resultado)
+    else:
+        usuario=None
+        
 
-'''
-marca,modelo,ano,categoria,precoPorDia,status'''
+    #retornamos o unico registro obtido. 
+    #Caso nao encontre resultado entao usuario ou senha foram invalidos e o valor retornado sera None.
+    return usuario

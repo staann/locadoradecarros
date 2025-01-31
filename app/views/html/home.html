@@ -1,4 +1,5 @@
-% rebase('app/views/html/menu.tpl',title='Cadastro de carros')
+{% extends "menu.html" %}
+{%block content%}
     <section class="hero">
         <div class="hero-texto">
             <h2>Alugue o carro ideal para sua viagem</h2>
@@ -49,7 +50,6 @@
         </div>
     </section>
 
-    <footer>
     <section id="contato" class="contato">
         <div class="container">
             <h2>Entre em Contato</h2>
@@ -67,5 +67,5 @@
             </form>
         </div>
     </section>
-    <footer>
 
+{% endblock content%}

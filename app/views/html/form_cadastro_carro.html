@@ -1,4 +1,6 @@
-% rebase('app/views/html/menu.tpl',title='Cadastro de carros')
+{%extends "menu.html"%}
+
+{% block content%}
 
 <div class="container mt-5">
     <h2 class="mb-4">Cadastre o carro:</h2>
@@ -38,3 +40,5 @@
     <br>
     <a href="/carros" class="btn btn-link">Voltar para a lista de carros</a>
 </div>
+
+{%endblock content%}
