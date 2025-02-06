@@ -78,16 +78,37 @@ def logout():
     session.pop("usuario_logado", None)  # Removendo o usuário da sessão
     return redirect(url_for('menu'))
 
-'''
-@app.route('/paginaCadastro')
-def login():
-    return ctl.render('paginaCadastro')
 
+@app.route('/processa_cadastro', methods=['POST'])
+def efetua_cadastro():
+    return ctl.render('processar_cadastro')
+    '''
+    usuario = request.form.get('username')
+    email = request.form.get('email')
+    nome = request.form.get('nome')
+    cpf = request.form.get('cpf')
+    telefone = request.form.get('telefone')
+    senha = request.form.get('senha')
+    confirma_senha = request.form.get('confirmaSenha')
+
+    if senha != confirma_senha:
+        flash('a senha tem que ser a mesma !','danger')
+        return redirect(url_for('cadastro'))
+    
+    else:
+        cadastro = Usuario(None,usuario,nome,cpf,telefone,email,False,senha)
+        #return redirect(url_for('menu'))
+    '''
+
+
+@app.route('/paginaCadastro')
+def cadastro():
+    return ctl.render('paginaCadastro')
+'''
 @app.route('/paginaEsqueceuSenha')
-def login():
+def esqu():
     return ctl.render('paginaEsqueceuSenha')
 '''
-
 #-----------------------------------------------------------------------------
 
 

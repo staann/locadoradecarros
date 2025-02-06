@@ -25,11 +25,21 @@ class Locadora:
 
     @staticmethod
     def cadastrar_usuario(usuario):
-        ...
+        db.inserir_usuario(usuario)
 
     @staticmethod
     def logar_usuario(login, senha):
         usuario = db.logar_usuario(login, senha)
         return usuario
+    
+    @staticmethod
+    def comparar_usuario(nome_usuario):
+        resultado = db.comparar_usuario(nome_usuario)
+        return resultado
+    
+    @staticmethod
+    def comparar_email(email):
+        resultado = db.comparar_email(email)
+        return resultado
 
 

@@ -1,7 +1,7 @@
 from flask import *
 from app.models.carro import Carro
 from app.models.locadora import Locadora
-
+from app.models.usuario import Usuario
 
 
 #    Carro("Toyota", "Corolla", 2020, 'economica',150.00,True,15),
@@ -16,7 +16,8 @@ class Application():
         self.pages = { 'carros': self.carros, 'home': self.home, 
         'cadastrar_carro': self.cadastrar_carro, 'processar_cadastro_carro': self.processar_cadastro_carro,
         'processar_exclusao_carro': self.processar_exclusao_carro, 'login_page': self.login_page,
-        'paginaCadastro': self.paginaCadastro, 'paginaEsqueceuSenha' : self.paginaEsqueceuSenha
+        'paginaCadastro': self.paginaCadastro, 'paginaEsqueceuSenha' : self.paginaEsqueceuSenha,
+        'processar_cadastro' : self.processar_cadastro_usuario
         }
 
 
@@ -65,7 +66,7 @@ class Application():
             carro = Carro(id,marca,modelo,ano,categoria,preco_diaria,disponivel)
         else:
             carro = Carro(None,marca,modelo,ano,categoria,preco_diaria,disponivel)
-
+ 
         Locadora.cadastrar_carro(carro)
         return redirect('/carros')
     
@@ -78,6 +79,32 @@ class Application():
     
     def paginaCadastro(self):
         return render_template('paginaCadastro.html')
+    
+    def processar_cadastro_usuario(self):
+        usuario = request.form.get('username')
+        email = request.form.get('email')
+        nome = request.form.get('nome')
+        cpf = request.form.get('cpf')
+        telefone = request.form.get('telefone')
+        senha = request.form.get('senha')
+        confirma_senha = request.form.get('confirmaSenha')
+
+        if Locadora.comparar_usuario(usuario) == False:
+            flash('escolha outro nome de usuario !','danger')
+            return redirect(url_for('cadastro'))
+        
+        elif Locadora.comparar_email(email) == False:
+            flash('email já em uso !','danger')
+            return redirect(url_for('cadastro'))
+
+        elif senha != confirma_senha:
+            flash('a senha tem que ser a mesma !','danger')
+            return redirect(url_for('cadastro'))
+        
+        else:
+            cadastro = Usuario(None,usuario,nome,cpf,telefone,email,senha,False)
+            Locadora.cadastrar_usuario(cadastro)
+            return redirect(url_for('menu'))
     
     def paginaEsqueceuSenha(self):
         return render_template('paginaEsqueceuSenha.html')

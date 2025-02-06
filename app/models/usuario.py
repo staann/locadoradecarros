@@ -5,7 +5,7 @@ class Usuario:
         self.login = login
         self.nome = nome
         self.cpf = cpf
-        self.telefone = telefone
+        self.telefone = telefone 
         self.email = email
         self.admin = admin
         self.senha = senha

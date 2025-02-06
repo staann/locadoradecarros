@@ -13,6 +13,13 @@ TABLE_NAME = 'carros'
 connection = sqlite3.connect(DB_FILE)
 cursor = connection.cursor()
 # SQL
+'''
+cursor.execute('DELETE FROM usuarios WHERE id = ?',(6,))
+
+cursor.close()
+connection.commit()
+connection.close()
+'''
 
 cursor.execute(
     f'CREATE TABLE IF NOT EXISTS carros'
@@ -146,3 +153,45 @@ def logar_usuario(login, senha):
     #retornamos o unico registro obtido. 
     #Caso nao encontre resultado entao usuario ou senha foram invalidos e o valor retornado sera None.
     return usuario
+
+
+def inserir_usuario(dados : Usuario):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    params = (dados.login,dados.email,dados.nome, dados.cpf,dados.telefone,dados.admin,dados.senha)
+    sql = f'INSERT INTO usuarios (login, email, nome, cpf, telefone, admin ,senha) VALUES (?, ?, ?, ?, ?, ?, ?)', params
+    cursor.execute(*sql)
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+def comparar_usuario(usuario):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    params = (usuario)
+    sql = f'SELECT login FROM usuarios WHERE login = "{usuario}"'
+    cursor.execute(sql)
+    resultado = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    if resultado == None:
+        return True
+    
+    else:
+        return False
+    
+def comparar_email(email):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    params = (email)
+    sql = f'SELECT email FROM usuarios WHERE email = "{email}"'
+    cursor.execute(sql)
+    resultado = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    if resultado == None:
+        return True
+    
+    else:
+        return False
