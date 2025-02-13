@@ -127,13 +127,14 @@ class Application():
         aluguel = Aluguel(id_carro,id_usuario,data_inicio,data_final,'Pendente')
         Locadora.alugar(aluguel)
 
-        return redirect(url_for('menu'))
+        return redirect(url_for('carros'))
     
 
     def lista_historico(self,id_carro):
         resultado = Locadora.listar_historico(id_carro)
+        carro_para_alugar = Locadora.obtem_carro_por_id(id_carro)
         print(resultado)
-        return render_template('historico.html',historico=resultado)
+        return render_template('historico.html',carro=carro_para_alugar, historico=resultado)
 
     
     def processar_devolucao(self,id):
