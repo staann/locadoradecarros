@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 from app.models.carro import Carro
 from app.models.usuario import Usuario
-
+from app.models.aluguel import Aluguel
 
 ROOT_DIR = Path(__file__).parent
 DB_NAME = 'db.sqlite3'
@@ -10,16 +10,19 @@ DB_FILE = ROOT_DIR / DB_NAME
 TABLE_NAME = 'carros'
 
 
+
+# SQL
+
+#cursor.execute('DELETE FROM usuarios WHERE id = ?',(6,))
+
+#cursor.close()
+#connection.commit()
+#connection.close()
 connection = sqlite3.connect(DB_FILE)
 cursor = connection.cursor()
-# SQL
-'''
-cursor.execute('DELETE FROM usuarios WHERE id = ?',(6,))
+#cursor.execute("DROP TABLE IF EXISTS historico")
 
-cursor.close()
-connection.commit()
-connection.close()
-'''
+
 
 cursor.execute(
     f'CREATE TABLE IF NOT EXISTS carros'
@@ -47,6 +50,21 @@ cursor.execute(
     'senha TEXT'
     ')'
 )
+
+
+
+cursor.execute(
+    f'CREATE TABLE IF NOT EXISTS historico'
+    '('
+    'id INTEGER PRIMARY KEY AUTOINCREMENT,'
+    'id_carro INTEGER,'
+    'id_usuario INTEGER,'
+    'data_inicio TEXT,'
+    'data_final TEXT,'
+    'data_devolvida TEXT'
+    ')'
+)
+
 connection.commit()
 
 cursor.close()
@@ -195,3 +213,89 @@ def comparar_email(email):
     
     else:
         return False
+    
+def alugar_carro(aluguel : Aluguel):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    params = (aluguel.id_carro,aluguel.id_usuario,aluguel.data_inicio,aluguel.data_final,aluguel.data_devolvida)
+    sql = f'INSERT INTO historico (id_carro,id_usuario,data_inicio,data_final,data_devolvida) VALUES (?, ?, ?, ?,?)', params
+    cursor.execute(*sql)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    #params2 = (False)
+    sql2 = "UPDATE carros SET status = ? WHERE id = ?"
+    cursor.execute(sql2, (False, aluguel.id_carro))
+    #sql2 = f'update carros set status=? WHERE id='+aluguel.id_carro, False
+    #cursor.execute(*sql2)
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+
+def listar_historico(id):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    params = (id)
+    sql = f'SELECT id_carro,id_usuario,data_inicio,data_final,data_devolvida FROM historico WHERE id_carro = "{id}"'
+    cursor.execute(sql)
+    resultado = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    lista_historico=[Aluguel(*linha) for linha in resultado]
+    return lista_historico
+    #return resultado
+    
+
+def devolver(id,data_atual):
+
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    sql = "UPDATE carros SET status = ? WHERE id = ?"
+    cursor.execute(sql, (True, id))
+    sql2 = "UPDATE historico SET data_devolvida = ? WHERE id_carro = ? AND data_devolvida = 'Pendente' "
+    cursor.execute(sql2, (data_atual, id))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+'''def altera_data(data,id):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    sql = "UPDATE historico SET data_devolvida = ? WHERE id = ? "
+    cursor.execute(sql, (data, id))
+    connection.commit()
+    cursor.close()
+    connection.close()
+'''
+
+
+'''
+def devolver(id):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    sql = (f'SELECT id_usuario FROM historico WHERE id_usuario = "{id}" ORDER BY ROWID DESC LIMIT 1') 
+    cursor.execute(sql)
+
+    
+--------------------
+    cursor.execute('SELECT id,marca, modelo, ano,categoria, diaria, status FROM carros')
+    linhas_db=cursor.fetchall()
+#    for linha in linhas_db:
+#        print(linha)
+    cursor.close()
+    connection.close()
+    lista_carros=[Carro(*linha) for linha in linhas_db]
+
+ #   for carro in lista_carros:
+ #       print(*carro.marca)
+
+    #print(lista_carros)
+    return lista_carros
+
+'''

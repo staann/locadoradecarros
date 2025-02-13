@@ -1,0 +1,42 @@
+{% extends "menu.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/carros.css') }}">
+{% endblock %}
+{%block content%}
+    <div style="text-align: center;" >
+        <h2>HISTORICO DE ALUGUEL</h2>
+        <table class="table" width="200px" align="center" border="1">
+            <thead>
+                <tr>
+                    <th>id_carro</th>
+                    <th>id_usuario</th>
+                    <th>data_inicio</th>
+                    <th>data_final</th>
+                    <th>data_devolvida</th>
+                    <th>devolver</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for linha in historico %}
+                    <tr>
+                        <td>{{ linha.id_carro }}</td>
+                        <td>{{ linha.id_usuario }}</td>
+                        <td>{{ linha.data_inicio }}</td>
+                        <td>{{ linha.data_final }}</td>
+                        <td>{{'Pendente' if linha.data_devolvida == 'Pendente' else linha.data_devolvida}}</td>
+                        <td>
+                            {% if linha.data_devolvida == 'Pendente' %}
+                                <a href="{{ url_for('processar_devolucao', id=linha.id_carro) }}"><i class="fa fa-undo fa-lg  mr-3" style="color: black" ></i></a>                            
+                            
+                            {% else %}
+                                <i class="fa fa- check-square fa-lg  mr-3" style="color: black" ></i></a>                            
+
+                            {% endif %}
+                            </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/carros">Voltar</a>
+    </div>
+{%endblock content%}

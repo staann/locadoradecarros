@@ -2,6 +2,8 @@ from flask import *
 from app.models.carro import Carro
 from app.models.locadora import Locadora
 from app.models.usuario import Usuario
+from app.models.aluguel import Aluguel
+from datetime import datetime
 
 
 #    Carro("Toyota", "Corolla", 2020, 'economica',150.00,True,15),
@@ -17,7 +19,9 @@ class Application():
         'cadastrar_carro': self.cadastrar_carro, 'processar_cadastro_carro': self.processar_cadastro_carro,
         'processar_exclusao_carro': self.processar_exclusao_carro, 'login_page': self.login_page,
         'paginaCadastro': self.paginaCadastro, 'paginaEsqueceuSenha' : self.paginaEsqueceuSenha,
-        'processar_cadastro' : self.processar_cadastro_usuario
+        'processar_cadastro' : self.processar_cadastro_usuario, 'pagina_aluguel' : self.pagina_aluguel,
+        'processar_aluguel' : self.processar_aluguel, 'lista_historico': self.lista_historico,
+        'processar_devolucao' : self.processar_devolucao
         }
 
 
@@ -108,3 +112,34 @@ class Application():
     
     def paginaEsqueceuSenha(self):
         return render_template('paginaEsqueceuSenha.html')
+    
+    def pagina_aluguel(self,id_carro):
+        carro_para_alugar = Locadora.obtem_carro_por_id(id_carro)
+        return render_template('pagina_aluguel.html',carro=carro_para_alugar)
+    
+    def processar_aluguel(self):
+        id_carro = request.form.get('id')
+        #id_usuario = request.form.get()
+        data_inicio = request.form.get('data_inicio')
+        data_final = request.form.get('data_final')
+
+        id_usuario = session['usuario_logado']['id']
+        aluguel = Aluguel(id_carro,id_usuario,data_inicio,data_final,'Pendente')
+        Locadora.alugar(aluguel)
+
+        return redirect(url_for('menu'))
+    
+
+    def lista_historico(self,id_carro):
+        resultado = Locadora.listar_historico(id_carro)
+        print(resultado)
+        return render_template('historico.html',historico=resultado)
+
+    
+    def processar_devolucao(self,id):
+        #id_carro=Locadora.obtem_carro_por_id(id)
+        data_atual = datetime.today().strftime('%Y-%m-%d')
+        print(data_atual)
+        Locadora.devolver(id,data_atual)
+        print(f'id = {id}')
+        return redirect(url_for('carros'))

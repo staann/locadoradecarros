@@ -34,6 +34,10 @@ def menu(info=None):
 def carros(info= None):
     return ctl.render('carros')
 
+@app.route('/perfil')
+def perfil():
+    return ctl.render('perfil')
+
 @app.route('/mostra_form_cadastro_carros/<id>', methods=['POST', 'GET'])
 @app.route('/mostra_form_cadastro_carros')
 def mostra_form_cadastro_carros(id=None):
@@ -80,8 +84,10 @@ def logout():
 
 
 @app.route('/processa_cadastro', methods=['POST'])
-def efetua_cadastro():
+def efetua_cadastro(id):
     return ctl.render('processar_cadastro')
+
+
     '''
     usuario = request.form.get('username')
     email = request.form.get('email')
@@ -104,6 +110,25 @@ def efetua_cadastro():
 @app.route('/paginaCadastro')
 def cadastro():
     return ctl.render('paginaCadastro')
+
+#pagina de cadastro do aluguel
+@app.route('/pagina_aluguel/<id>')
+def aluguel_carro(id):
+    return ctl.render('pagina_aluguel',id)
+
+@app.route('/processar_aluguel', methods=['POST'])
+def processar_aluguel():
+    return ctl.render('processar_aluguel')
+
+@app.route('/lista_historico/<id>', methods=['POST', 'GET'])
+def lista_historico(id):
+   return ctl.render('lista_historico',id)
+
+@app.route('/processar_devolucao/<id>')
+def processar_devolucao(id):
+    print(f'id = {id}')
+    return ctl.render('processar_devolucao',id)
+
 '''
 @app.route('/paginaEsqueceuSenha')
 def esqu():

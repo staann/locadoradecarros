@@ -1,0 +1,44 @@
+{% extends "menu.html" %}
+{%block content%}
+<h2>Detalhes do Carro</h2>
+<p><strong>Marca:</strong> {{ carro.marca }}</p>
+<p><strong>Modelo:</strong> {{ carro.modelo }}</p>
+<p><strong>Ano:</strong> {{ carro.ano }}</p>
+<p><strong>Preço:</strong> R$ {{ carro.preco_por_dia }}</p>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Cadastre o alugel:</h2>
+    <form action="/processar_aluguel" method="POST">
+
+        <div class="mb-3">
+            <label for="id" class="form-label">Id carro</label>
+            <input readonly type="text" class="form-control" id="id" name="id" required value={{carro.id}} >
+        </div>
+
+        <div class="mb-3">
+            <label for="data_inicio" class="form-label">Data Inicio</label>
+            <input type="date" class="form-control" id="data_inicio" name="data_inicio" required >
+        </div>
+        <div class="mb-3">
+            <label for="data_final" class="form-label">Data Final</label>
+            <input type="date" class="form-control" id="data_final" name="data_final" required >
+        </div>
+        <button class="btn btn-primary" onclick="calcula_total">Calcula total </button>
+        <div class="mb-3">
+            <label for="total" class="form-label">Valor Total</label>
+            <input readonly type="text" class="form-control" id="total" name="total">
+        </div>
+      
+        <button type="submit" class="btn btn-primary">Cadastrar Aluguel</button>
+    </form>
+
+
+    <br>
+    <a href="/carros" class="btn btn-link">Voltar para a lista de carros</a>
+</div>
+
+
+
+<a href="/">Voltar</a>
+{%endblock content%}
+

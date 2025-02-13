@@ -43,3 +43,17 @@ class Locadora:
         return resultado
 
 
+    @staticmethod
+    def alugar(aluguel):
+        db.alugar_carro(aluguel)
+
+
+    @staticmethod
+    def listar_historico(id_carro):
+        historico = db.listar_historico(id_carro)
+        return historico
+
+    @staticmethod
+    def devolver(id,data_atual):
+        db.devolver(id,data_atual)
+        #db.altera_data(data_atual,id)

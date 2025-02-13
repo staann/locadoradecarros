@@ -31,7 +31,11 @@
                                 <a href="/mostra_form_cadastro_carros/{{carro.id}}"><i class="fa fa-pencil fa-lg  mr-3" style="color: black" ></i></a>  
                                 <a href="/processar_exclusao_carro/{{carro.id}}"><i class="fa fa-trash fa-lg  mr-3" style="color: black" ></i></a> 
                             {% endif %}
-                            <a href="/mostra_form_aluguel/{{carro.id}}"><i class="fa fa-car fa-lg  mr-3" style="color: black" ></i></a> 
+                            {% if carro.status %}
+                                <a href="{{ url_for('aluguel_carro', id=carro.id) }}"><i class="fa fa-car fa-lg  mr-3" style="color: black" ></i></a> 
+                            {% endif %}
+                            <a href="{{ url_for('lista_historico', id=carro.id) }}"><i class="fa fa-clock-o fa-lg  mr-3" style="color: black" ></i></a> 
+                            
                         </td>
                     </tr>
                 {% endfor %}
