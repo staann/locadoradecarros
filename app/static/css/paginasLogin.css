@@ -37,7 +37,7 @@
     border-color: #007bff;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
 }
-.btn {
+.login-container .btn {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -47,6 +47,6 @@
     font-size: 16px;
     cursor: pointer;
 }
-.btn:hover {
+.login-container .btn:hover {
     background-color: #0056b3;
 }

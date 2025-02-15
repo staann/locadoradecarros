@@ -6,6 +6,26 @@ body {
     line-height: 1.6;
 }
 
+.tabelaDetalhes {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 50%;
+    margin: 2rem auto; 
+    padding: 1.5rem; 
+    border-radius: 10px; 
+    border: 2px solid #004aad;
+}
+
+.tabelaDetalhes ul {
+    list-style: none; 
+    padding: 0;
+}
+
+.tabelaDetalhes li {
+    padding: 0.5rem 0; 
+    font-size: 1.1rem;
+}
 .container {
     width: 90%;
     max-width: 1200px;
