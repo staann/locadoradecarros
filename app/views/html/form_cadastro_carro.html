@@ -23,10 +23,16 @@
             <label for="ano" class="form-label">Ano</label>
             <input type="number" class="form-control" id="ano" name="ano" required value={{carro.ano}}>
         </div>
+
         <div class="mb-3">
-            <label for="categoria" class="form-label">Categoria </label>
-            <input type="text" class="form-control" id="categoria" name="categoria" required value={{carro.categoria}}>
+            <label for="categoria" class="form-label">Categoria</label>
+            <select class="form-control" id="categoria" name="categoria" required>
+                <option value="Econômica" {% if carro.categoria == "Econômica" %}selected{% endif %}>Econômica</option>
+                <option value="SUV" {% if carro.categoria == "SUV" %}selected{% endif %}>SUV</option>
+                <option value="Luxo" {% if carro.categoria == "Luxo" %}selected{% endif %}>Luxo</option>
+            </select>
         </div>
+
         <div class="mb-3">
             <label for="preco_diaria" class="form-label">Preço Diária (R$)</label>
             <input type="number" class="form-control" id="preco_diaria" name="preco_diaria" step="0.01" required value={{carro.preco_por_dia}}>

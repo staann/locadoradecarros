@@ -29,17 +29,31 @@ h1, h2, h3 {
     align-items: center;
 }
 
-.header .logo h1 {
-    margin: 0;
-    font-size: 1.5rem;
-}
 
 .header .menu {
     list-style: none;
     display: flex;
     gap: 1.5rem;
     margin: 0;
-    padding: 0;
+    padding-left: 2rem;
+    justify-content: space-between;
+}
+
+ 
+.AlugaCar {
+    margin: 0;
+    padding: 0; 
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+}
+
+.AlugaCar a{
+    text-decoration: none;
+    color: white;
+
 }
 
 .header .menu li {
@@ -50,6 +64,11 @@ h1, h2, h3 {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+}
+
+.header .login{
+    padding-right: 2rem;
+    gap: 2rem;
 }
 
 .header .botao {
@@ -76,7 +95,7 @@ h1, h2, h3 {
 
 .hero h2 {
     font-size: 2.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
 }
 
 .hero p {
@@ -108,19 +127,31 @@ section {
     margin: 0 auto;
     color: #555;
 }
+.veiculos h2{
 
+    margin-bottom: 3rem;
+}
 .veiculos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: 2.5rem;
+
+}
+
+.veiculo{
+    background-color:  #004aad;
+    color: white;
+    border-radius: 10px;
 }
 
 .veiculo img {
     width: 100%;
+    height: 70%;
     border-radius: 5px;
 }
 
 .veiculo h3 {
+    color: white;
     margin: 0.5rem 0;
 }
 
@@ -133,57 +164,55 @@ section {
 .servicos li {
     margin: 0.5rem 0;
 }
-footer{
+
+
+.contato {
     background-color: #004aad;
-
+    text-align: center;
+    padding: 20px;
 }
 
-/* Formulário */
-/*
-form {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: left;
+.contato h2 {
+    color: white;
 }
 
-form label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
+.container {
+    max-width: 500px; 
+    margin: 0 auto; 
+    padding: 20px;
 }
 
-form input, form textarea {
+footer form {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+footer label {
     width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 1rem;
+    text-align: left; /* Mantém o texto alinhado à esquerda */
+    font-weight: bold;
+    color: white;
+}
+
+footer input, textarea {
+    width: 100%; 
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-form button {
-    background: #004aad;
-    color: #fff;
-    padding: 0.8rem 1.5rem;
+footer .botao {
+    background-color: #ff6600;
+    color: white;
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
+    margin-top: 2rem;
 }
 
-form button:hover {
-    background: #003080;
-}
-*/
-
-/* Footer */
-footer {
-    background: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
-}
-
-footer p {
-    margin: 0;
-    font-size: 0.9rem;
+footer .botao:hover {
+    background-color: #e55b00;
 }

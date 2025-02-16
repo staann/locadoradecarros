@@ -1,11 +1,17 @@
 {% extends "menu.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/carros.css') }}">
+{% endblock %}
 {%block content%}
-<h2>Detalhes do Carro</h2>
-<p><strong>Marca:</strong> {{ carro.marca }}</p>
-<p><strong>Modelo:</strong> {{ carro.modelo }}</p>
-<p><strong>Ano:</strong> {{ carro.ano }}</p>
-<p><strong>Preço:</strong> R$ {{ carro.preco_por_dia }}</p>
-
+<div class="tabelaDetalhes">
+    <h2>Detalhes do Carro</h2>
+    <ul>
+        <li><strong>Marca:</strong> {{ carro.marca }}</li>
+        <li><strong>Modelo:</strong> {{ carro.modelo }}</li>
+        <li><strong>Ano:</strong> {{ carro.ano }}</li>
+        <li><strong>Preço:</strong> R$ {{ carro.preco_por_dia }}</li>
+    </ul>
+</div>
 <div class="container mt-5">
     <h2 class="mb-4">Cadastre o alugel:</h2>
     <form action="/processar_aluguel" method="POST">
