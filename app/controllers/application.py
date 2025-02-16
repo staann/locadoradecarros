@@ -127,7 +127,7 @@ class Application():
         aluguel = Aluguel(id_carro,id_usuario,data_inicio,data_final,'Pendente')
         Locadora.alugar(aluguel)
 
-        return redirect(url_for('carros'))
+        return render_template('agradecimento.html',data_inicio=data_inicio)
     
 
     def lista_historico(self,id_carro):

@@ -84,7 +84,7 @@ def logout():
 
 
 @app.route('/processa_cadastro', methods=['POST'])
-def efetua_cadastro(id):
+def efetua_cadastro():
     return ctl.render('processar_cadastro')
 
 
@@ -128,8 +128,13 @@ def lista_historico(id):
 def processar_devolucao(id):
     print(f'id = {id}')
     return ctl.render('processar_devolucao',id)
-
 '''
+@app.route('/agradecimento')
+def agradecimento():
+    # Obter a data_inicio da URL
+    data_inicio = request.args.get('data_inicio')
+
+
 @app.route('/paginaEsqueceuSenha')
 def esqu():
     return ctl.render('paginaEsqueceuSenha')

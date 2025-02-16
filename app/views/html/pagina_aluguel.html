@@ -29,7 +29,8 @@
             <label for="data_final" class="form-label">Data Final</label>
             <input type="date" class="form-control" id="data_final" name="data_final" required >
         </div>
-        <button class="btn btn-primary" onclick="calcula_total">Calcula total </button>
+        <input type="hidden" id="preco_por_dia" value="{{ carro.preco_por_dia }}">
+        <button type="button" class="btn btn-primary" onclick="calcular()">Calcula total </button>
         <div class="mb-3">
             <label for="total" class="form-label">Valor Total</label>
             <input readonly type="text" class="form-control" id="total" name="total">
@@ -46,5 +47,6 @@
 
 
 <a href="/">Voltar</a>
+<script src="{{ url_for('static', filename='js/calcular.js') }}"></script>
 {%endblock content%}
 
