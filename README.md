@@ -4,7 +4,7 @@ Projeto final da disciplina de **Orientação a Objetos**, ministrada pelo profe
 
 ## 📌 Integrantes  
 - **João Capozzi** - Matrícula: 232027476  
-- **Gustavo Choeiri** - Matrícula: *(adicionar número)*  
+- **Gustavo Choeiri** - Matrícula: 232014010
 
 ## 🛠️ Tecnologias Utilizadas  
 O site foi desenvolvido utilizando **Python** e **Flask**, além de ser **dockerizado** para facilitar a implantação e utilização pelos usuários.  
@@ -45,3 +45,9 @@ Permite o acesso de diferentes tipos de usuários:
 - Devem se cadastrar na página de cadastro antes de acessar o sistema.  
 
 ---
+
+## 📄 Dockerfile  
+O arquivo **Dockerfile** contém as configurações para criação de uma imagem no Docker.  
+
+## 🏗️ Docker Build & Run  
+O arquivo **dockerBuild&Run** cria a imagem "alugacar" e executa um container rodando o servidor local. 
