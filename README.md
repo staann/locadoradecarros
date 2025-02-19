@@ -4,7 +4,7 @@ Projeto final da disciplina de **Orientação a Objetos**, ministrada pelo profe
 
 ## 📌 Integrantes  
 - **João Capozzi** - Matrícula: 232027476  
-- **Gustavo Choeiri** - Matrícula: 232014010
+- **Gustavo Choueiri** - Matrícula: 232014010
 
 ## 🛠️ Tecnologias Utilizadas  
 O site foi desenvolvido utilizando **Python** e **Flask**, além de ser **dockerizado** para facilitar a implantação e utilização pelos usuários.  
