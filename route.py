@@ -1,15 +1,18 @@
 from app.controllers.application import Application
 from flask import *
 from flask import Flask
+from flask_socketio import SocketIO, send,emit
 import os
+import random
 from app.models.locadora import Locadora
 
 
 
 app = Flask(__name__,template_folder='app/views/html',static_folder='app/static')
 app.secret_key = "chave_secreta"
+socketio = SocketIO(app)
 ctl = Application()
-
+connected_users = {}
 
 
 #-----------------------------------------------------------------------------
@@ -22,6 +25,49 @@ def serve_static(filepath):
 @app.route('/helper')
 def helper(info= None):
     return ctl.render('helper')
+'''
+@socketio.on('message')
+def handle_message(msg):
+    print('Mensagem recebida: ' + msg)
+    send(msg, broadcast=True,include_self=False)
+'''
+@socketio.on("connect")
+def handle_connect():
+    user_id = request.sid  # ID único da conexão do usuário
+    connected_users[user_id] = user_id  # Adiciona à lista
+    print(f"Usuário {user_id} conectado")
+
+@socketio.on("disconnect")
+def handle_disconnect():
+    user_id = request.sid
+    connected_users.pop(user_id, None)  # Remove da lista
+    print(f"Usuário {user_id} desconectado")
+
+@socketio.on("chatMessage")
+def handle_message(data):
+    sender_id = request.sid  # Identifica quem enviou a mensagem
+    message = data["message"]
+
+    # Escolher um destinatário aleatório (que não seja o próprio remetente)
+    possible_receivers = [uid for uid in connected_users if uid != sender_id]
+    if possible_receivers:
+        receiver_id = random.choice(possible_receivers)
+        emit("receiveMessage", {"message": message, "from": sender_id}, room=receiver_id)
+        print(f"Mensagem de {sender_id} enviada para {receiver_id}")
+    else:
+        emit("systemMessage", "Nenhum usuário disponível para receber a mensagem.", room=sender_id)
+
+@socketio.on("replyMessage")
+def handle_reply(data):
+    sender_id = request.sid
+    original_sender_id = data["to"]  # Para quem essa resposta deve ser enviada
+    message = data["message"]
+
+    if original_sender_id in connected_users:
+        emit("receiveMessage", {"message": message, "from": sender_id}, room=original_sender_id)
+        print(f"Resposta de {sender_id} enviada para {original_sender_id}")
+    else:
+        emit("systemMessage", "Usuário original não está mais online.", room=sender_id)
 
 
 #-----------------------------------------------------------------------------
@@ -143,5 +189,5 @@ def esqu():
 
 
 if __name__ == '__main__':
-
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    socketio.run(app, debug=True)
+    #app.run(host='0.0.0.0', port=8080, debug=True)
