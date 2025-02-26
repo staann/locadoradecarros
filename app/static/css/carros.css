@@ -81,12 +81,21 @@ header .botao {
     font-weight: bold;
 }
 
+.botao2 {
+    background: #fff;
+    color: #004aad;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
 
 td, th{
     padding: .7em;
     margin: 0;
     /*border: 1px solid #ccc;*/
     text-align: center;
+    white-space: nowrap;
 }
 
 table{
@@ -94,4 +103,22 @@ table{
   margin-bottom : .5em;
   table-layout: fixed;
   text-align: center;
+}
+
+.tabela2 {
+    width: 100%; /* Largura da tabela */
+    border-collapse: collapse; /* Remove espaços entre as células */
+}
+
+.histperf {
+    padding: 10px; /* Espaçamento interno nas células */
+    border: 1px solid #ddd; /* Borda para visualização */
+    text-align: center;
+}
+
+.tabelas-container {
+    display: flex;           /* Ativa o Flexbox */
+    justify-content: space-between; /* Espaço entre as tabelas */
+                 /* Espaçamento entre as tabelas */
+    width: 105%;            /* Largura total */
 }

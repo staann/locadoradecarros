@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 from pathlib import Path
 from app.models.carro import Carro
 from app.models.usuario import Usuario
@@ -263,6 +264,83 @@ def devolver(id,data_atual):
     connection.commit()
     cursor.close()
     connection.close()
+
+def obtem_informacoes_usuario(id):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    sql = f'SELECT id,login,nome,cpf,telefone,email,admin,senha FROM usuarios WHERE id= "{id}"'
+    cursor.execute(sql)
+    resultado = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    info = Usuario(*resultado)
+    print(info.nome)
+    print(info.cpf)
+    return info
+
+
+def alterar_informacoes_usuario(usuario: Usuario):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    params = (usuario.nome, usuario.email, usuario.telefone, usuario.cpf,usuario.id)
+    sql = 'UPDATE usuarios set nome=?,email=?,telefone=?,cpf=?  WHERE id =?'
+    cursor.execute(sql,params)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+
+def listar_historico_usuario(id_usuario):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    #params = (id_usuario)
+    sql = f'SELECT id_carro,id_usuario,data_inicio,data_final,data_devolvida FROM historico WHERE id_usuario = "{id_usuario}"'
+    cursor.execute(sql)
+    resultado = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    #lista_historico=[Aluguel(*linha) for linha in resultado]
+    #return lista_historico
+    lista_historico = [
+        Aluguel(
+            id_carro=linha[0],
+            id_usuario=linha[1],
+            data_inicio=formatar_data(linha[2]),  # Formata data_inicio
+            data_fim=formatar_data(linha[3]),   # Formata data_final
+            data_devolvida=formatar_data(linha[4])  # Formata data_devolvida
+        )
+        for linha in resultado
+    ]
+
+    lista_id_carro=[]
+
+    for linha in resultado:
+        carro_obtido = obtem_carro_por_id(str(linha[0]))
+        #lista_id_carro.append(carro_obtido.marca)
+        #print(carro_obtido.modelo)
+        #lista_id_carro.append((carro_obtido.modelo,carro_obtido.categoria))
+        lista_historico.append((carro_obtido.modelo,carro_obtido.categoria))
+        #print(linha[0])
+    #print(lista_id_carro)
+
+    return lista_historico
+
+
+# Função para formatar datas
+def formatar_data(data):
+    if data is None:  # Se a data for NULL (Pendente)
+        return 'Pendente'
+    try:
+        # Converte a string para um objeto datetime
+        data_obj = datetime.strptime(data, '%Y-%m-%d')
+        # Formata a data no formato desejado
+        return data_obj.strftime('%d/%m/%Y')
+    except ValueError:
+        return data  # Retorna o valor original se não for uma data válida
+
+
 
 '''def altera_data(data,id):
     connection = sqlite3.connect(DB_FILE)

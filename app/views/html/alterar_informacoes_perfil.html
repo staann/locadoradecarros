@@ -1,0 +1,38 @@
+{%extends "menu.html"%}
+
+{% block content%}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Altere as Informações:</h2>
+    <form action="/processar_alteracao_informacoes_usuario" method="POST">
+
+        <div class="mb-3">
+            <label for="id" class="form-label">Identificacao</label>
+            <input readonly type="text" class="form-control" id="id" name="id" required value="{{informacoes_usuario.id}}" >
+        </div>
+
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" required value="{{informacoes_usuario.nome}}">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" name="email" required value={{informacoes_usuario.email}}>
+        </div>
+        <div class="mb-3">
+            <label for="telefone" class="form-label">Telefone</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" required value={{informacoes_usuario.telefone}}>
+        </div>
+        <div class="mb-3">
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" required value={{informacoes_usuario.cpf}}>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Alterar informações</button>
+    </form>
+    <br>
+    <a href="/perfil" class="btn btn-link">Voltar para perfil</a>
+</div>
+
+{%endblock content%}

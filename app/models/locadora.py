@@ -49,7 +49,7 @@ class Locadora:
 
 
     @staticmethod
-    def listar_historico(id_carro):
+    def listar_historico(id_carro):  #pelo id do carro
         historico = db.listar_historico(id_carro)
         return historico
 
@@ -57,3 +57,19 @@ class Locadora:
     def devolver(id,data_atual):
         db.devolver(id,data_atual)
         #db.altera_data(data_atual,id)
+
+    @staticmethod
+    def obtem_informacoes_usuario(id):
+        info = db.obtem_informacoes_usuario(id)
+        return info
+    
+    @staticmethod
+    def alterar_informacoes_usuario(usuario):
+        db.alterar_informacoes_usuario(usuario)
+
+
+
+    @staticmethod
+    def listar_historico_usuario(id_usuario):  #pelo id do usuario
+        historico = db.listar_historico_usuario(id_usuario)
+        return historico

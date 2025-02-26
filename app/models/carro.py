@@ -8,4 +8,7 @@ class Carro:
         self.preco_por_dia= precoPorDia
         self.status = status
         self.id = id
+
+    def __str__(self):
+        return self.marca
     

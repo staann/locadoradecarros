@@ -80,9 +80,6 @@ def menu(info=None):
 def carros(info= None):
     return ctl.render('carros')
 
-@app.route('/perfil')
-def perfil():
-    return ctl.render('perfil')
 
 @app.route('/mostra_form_cadastro_carros/<id>', methods=['POST', 'GET'])
 @app.route('/mostra_form_cadastro_carros')
@@ -174,6 +171,19 @@ def lista_historico(id):
 def processar_devolucao(id):
     print(f'id = {id}')
     return ctl.render('processar_devolucao',id)
+
+@app.route('/perfil')
+def perfil():
+    return ctl.render('perfil')
+
+@app.route('/alterar_informacoes_usuario/<id>', methods = ['GET'])
+def alterar_informacoes(id):
+    return ctl.render('alterar_informacoes_usuario',id)
+
+@app.route('/processar_alteracao_informacoes_usuario', methods = ['POST'])
+def processar_alteracao_informacoes_usuario():
+    return ctl.render('processar_alteracao_informacoes_usuario')
+
 '''
 @app.route('/agradecimento')
 def agradecimento():

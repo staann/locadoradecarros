@@ -1,0 +1,64 @@
+{% extends "menu.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/carros.css') }}">
+{% endblock %}
+{%block content%}
+<div class="tabelaDetalhes">
+    <h2>Informações de Perfil</h2>
+    <ul>
+        <li><strong>Nome:</strong> {{ informacoes_usuario.nome }}</li>
+        <li><strong>Email:</strong> {{ informacoes_usuario.email }}</li>
+        <li><strong>CPF:</strong> {{ informacoes_usuario.cpf }}</li>
+        <li><strong>TELEFONE:</strong>{{ informacoes_usuario.telefone }}</li>
+    </ul>
+    <a href="/alterar_informacoes_usuario/{{ informacoes_usuario.id }}" class="botao2">Alterar Informações</a>
+    <!--
+    <form action="/alterar_informacoes/{{informacoes_usuario.id}}" method="GET"> 
+        <input type="hidden" id="id" value="{{ informacoes_usuario.id }}">
+        <button type="submit" class="btn btn-primary">Alterar Informacoes</button>
+    </form>
+    -->
+</div>
+
+<div class = "tabelaDetalhes" style="width: 70%;">
+    <h2>Histórico de Aluguel</h2>
+    <div class="tabelas-container">
+        <table class="tabela2">
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Categoria</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for linha in historico_usuario_pt2 %}
+                    <tr>
+                        <td class="histperf">{{linha[0]}}</td>
+                        <td class="histperf">{{linha[1]}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <table class="tabela2">
+            <thead>
+                <tr>
+                    <th>Data Inicial</th>
+                    <th>Data Final</th>
+                    <th>Devolvido em</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for linha in historico_usuario %}
+                    <tr>
+                        <td class="histperf">{{ linha.data_inicio }}</td>
+                        <td class="histperf">{{ linha.data_final }}</td>
+                        <td class="histperf">{{ 'Pendente' if linha.data_devolvida == 'Pendente' else linha.data_devolvida }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{%endblock%}

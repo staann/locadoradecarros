@@ -21,7 +21,10 @@ class Application():
         'paginaCadastro': self.paginaCadastro, 'paginaEsqueceuSenha' : self.paginaEsqueceuSenha,
         'processar_cadastro' : self.processar_cadastro_usuario, 'pagina_aluguel' : self.pagina_aluguel,
         'processar_aluguel' : self.processar_aluguel, 'lista_historico': self.lista_historico,
-        'processar_devolucao' : self.processar_devolucao
+        'processar_devolucao' : self.processar_devolucao, 'perfil': self.perfil,
+        'alterar_informacoes_usuario' : self.alterar_informacoes_usuario, 
+        'processar_alteracao_informacoes_usuario' : self.processar_alteracao_informacoes_usuario
+
         }
 
 
@@ -144,3 +147,36 @@ class Application():
         Locadora.devolver(id,data_atual)
         print(f'id = {id}')
         return redirect(url_for('carros'))
+    
+    def perfil(self):
+        id_usuario = session['usuario_logado']['id']
+        info = Locadora.obtem_informacoes_usuario(id_usuario)
+        historico = Locadora.listar_historico_usuario(id_usuario)
+        lista_tupla = []
+        lista_objeto = []
+        for i in historico:
+            if isinstance(i,tuple):
+                lista_tupla.append(i)
+            else:
+                lista_objeto.append(i)
+        #print(lista_objeto)
+        print(lista_tupla[0][0])
+        #print(lista_tupla[0])
+        #print(historico[0])
+        return render_template('perfil.html', informacoes_usuario = info, historico_usuario = lista_objeto, historico_usuario_pt2 = lista_tupla)
+
+
+    def alterar_informacoes_usuario(self,id):
+        print(id)
+        info = Locadora.obtem_informacoes_usuario(id)
+        return render_template('alterar_informacoes_perfil.html', informacoes_usuario = info)
+    
+    def processar_alteracao_informacoes_usuario(self):
+        id = request.form.get('id')
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        telefone = request.form.get('telefone')
+        cpf = request.form.get('cpf')
+        usuario = Usuario(id,'',nome,cpf,telefone,email,0,'')
+        Locadora.alterar_informacoes_usuario(usuario)
+        return redirect(url_for('perfil'))
