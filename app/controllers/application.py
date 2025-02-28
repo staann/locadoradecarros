@@ -23,7 +23,8 @@ class Application():
         'processar_aluguel' : self.processar_aluguel, 'lista_historico': self.lista_historico,
         'processar_devolucao' : self.processar_devolucao, 'perfil': self.perfil,
         'alterar_informacoes_usuario' : self.alterar_informacoes_usuario, 
-        'processar_alteracao_informacoes_usuario' : self.processar_alteracao_informacoes_usuario
+        'processar_alteracao_informacoes_usuario' : self.processar_alteracao_informacoes_usuario,
+        'upload_imagem': self.upload_imagem
 
         }
 
@@ -71,10 +72,11 @@ class Application():
 
         if id !="0":
             carro = Carro(id,marca,modelo,ano,categoria,preco_diaria,disponivel)
+
         else:
             carro = Carro(None,marca,modelo,ano,categoria,preco_diaria,disponivel)
  
-        Locadora.cadastrar_carro(carro)
+
         return redirect('/carros')
     
     def processar_exclusao_carro(self,id):
@@ -180,3 +182,18 @@ class Application():
         usuario = Usuario(id,'',nome,cpf,telefone,email,0,'')
         Locadora.alterar_informacoes_usuario(usuario)
         return redirect(url_for('perfil'))
+    
+    def upload_imagem(self,id_carro):
+        if request.method == 'POST':
+            file = request.files['image']
+            #id_carro = request.form.get('id')
+            if file:
+                # Lê a imagem diretamente como binário
+                img_data = file.read()
+                filename = file.filename
+                Locadora.inserir_imagem(id_carro,img_data,filename)
+                return render_template('pagina_upload_imagem.html', id_carro = id_carro)
+        else:
+            imagens = Locadora.mostrar_imagens(id_carro)
+            
+            return render_template('pagina_upload_imagem.html', id_carro = id_carro, images=imagens)

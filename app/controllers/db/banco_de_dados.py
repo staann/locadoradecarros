@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import datetime
 from pathlib import Path
+from flask import Response
 from app.models.carro import Carro
 from app.models.usuario import Usuario
 from app.models.aluguel import Aluguel
@@ -65,6 +66,13 @@ cursor.execute(
     'data_devolvida TEXT'
     ')'
 )
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS tabelaimagem (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_carro INTEGER,
+    imagemblob BLOB,
+    imagemnome TEXT)''')
+
 
 connection.commit()
 
@@ -339,6 +347,41 @@ def formatar_data(data):
         return data_obj.strftime('%d/%m/%Y')
     except ValueError:
         return data  # Retorna o valor original se não for uma data válida
+
+
+
+def inserir_imagem(id_carro,imagem,nome_imagem):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO tabelaimagem (id_carro,imagemblob, imagemnome)'
+    'VALUES (?,?,?)', (id_carro,imagem,nome_imagem))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def mostrar_imagens(id_carro):
+
+    
+    connection = sqlite3.connect(DB_FILE)
+    connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
+    images =cursor.execute('SELECT id, id_carro, imagemnome FROM tabelaimagem WHERE id_carro = ?', (id_carro,)).fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return images
+
+def mostrar_blob(id_imagem):
+    connection = sqlite3.connect(DB_FILE)
+    connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
+    image = cursor.execute('SELECT imagemblob FROM tabelaimagem WHERE id = ?', (id_imagem,)).fetchone()
+    cursor.close()
+    connection.close()
+    return image
+
 
 
 

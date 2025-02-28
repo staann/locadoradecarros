@@ -122,3 +122,10 @@ table{
                  /* Espaçamento entre as tabelas */
     width: 105%;            /* Largura total */
 }
+
+
+.center-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

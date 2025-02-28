@@ -94,7 +94,20 @@ def mostra_form_cadastro_carros(id=None):
 @app.route('/processar_cadastro_carro', methods=['POST'])
 def processar_cadastro_carro():
     return ctl.render('processar_cadastro_carro')
-        
+
+@app.route('/upload_imagem/<id_carro>', methods=['GET','POST'])
+def upload_imagem(id_carro):
+    return ctl.render('upload_imagem',id_carro)
+
+
+@app.route('/image/<int:image_id>')
+def get_image(image_id):
+    image = Locadora.mostrar_blob(image_id)
+
+    if image:
+        return Response(image['imagemblob'], content_type='image/jpeg')  # Se a imagem for JPEG
+    else:
+        return "Imagem não encontrada", 404
     
 
 @app.route('/processar_exclusao_carro/<id>', methods=['POST', 'GET'])

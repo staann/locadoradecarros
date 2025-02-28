@@ -73,3 +73,17 @@ class Locadora:
     def listar_historico_usuario(id_usuario):  #pelo id do usuario
         historico = db.listar_historico_usuario(id_usuario)
         return historico
+    
+    @staticmethod
+    def inserir_imagem(id_carro,imagem,nome_imagem):
+        db.inserir_imagem(id_carro,imagem,nome_imagem)
+
+    @staticmethod
+    def mostrar_imagens(id_carro):
+        x=db.mostrar_imagens(id_carro)
+        return x
+    
+    @staticmethod
+    def mostrar_blob(id_imagem):
+        x=db.mostrar_blob(id_imagem)
+        return x
