@@ -10,4 +10,4 @@ Este projeto foi desenvolvido para aprimorar minhas habilidades em **Orientaçã
 - Banco de dados SQLITE3 🗄️
 - HTML/CSS 🎨
 
- o PROJETO AINDA ESTÁ EM DESENVOLVIMENTO PARA A IMPLEMENTAÇÃO DE MAIS FUNCIONALIDADES
+ **PROJETO AINDA EM DESENVOLVIMENTO PARA A IMPLEMENTAÇÃO DE MAIS FUNCIONALIDADES**
