@@ -87,3 +87,11 @@ class Locadora:
     def mostrar_blob(id_imagem):
         x=db.mostrar_blob(id_imagem)
         return x
+    
+    @staticmethod
+    def cadastrar_fabricante(nome_fabricante):
+        db.cadastrar_fabricante(nome_fabricante)
+
+    @staticmethod
+    def selecionar_fabricantes():
+        return db.selecionar_fabricantes()

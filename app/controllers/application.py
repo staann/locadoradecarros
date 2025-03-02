@@ -24,7 +24,8 @@ class Application():
         'processar_devolucao' : self.processar_devolucao, 'perfil': self.perfil,
         'alterar_informacoes_usuario' : self.alterar_informacoes_usuario, 
         'processar_alteracao_informacoes_usuario' : self.processar_alteracao_informacoes_usuario,
-        'upload_imagem': self.upload_imagem
+        'upload_imagem': self.upload_imagem, 'cadastrar_novo_fabricante': self.cadastrar_novo_fabricante,
+        'processar_cadastro_novo_fabricante': self.processar_cadastro_novo_fabricante
 
         }
 
@@ -51,14 +52,15 @@ class Application():
 
     def cadastrar_carro(self,id=None):
         print(f'O id é {id}')
+        fabricantes = Locadora.selecionar_fabricantes()
         #Se id for none estamos cadastrando novo carro.    
         if id:
             carro_para_alterar = Locadora.obtem_carro_por_id(id)
             print(carro_para_alterar)
-            return render_template('form_cadastro_carro.html',carro=carro_para_alterar)
+            return render_template('form_cadastro_carro.html',carro=carro_para_alterar,fabricantes=fabricantes)
         else:
             carro=Carro(0,"","","","",0.0,True)
-            return render_template('form_cadastro_carro.html',carro=carro)
+            return render_template('form_cadastro_carro.html',carro=carro,fabricantes=fabricantes)
     
     def processar_cadastro_carro(self):
 
@@ -76,7 +78,7 @@ class Application():
         else:
             carro = Carro(None,marca,modelo,ano,categoria,preco_diaria,disponivel)
  
-
+        Locadora.cadastrar_carro(carro)
         return redirect('/carros')
     
     def processar_exclusao_carro(self,id):
@@ -197,3 +199,12 @@ class Application():
             imagens = Locadora.mostrar_imagens(id_carro)
             
             return render_template('pagina_upload_imagem.html', id_carro = id_carro, images=imagens)
+        
+
+    def cadastrar_novo_fabricante(self):
+        return render_template('cadastrar_novo_fabricante.html')
+    
+    def processar_cadastro_novo_fabricante(self):
+        nome_fabricante = request.form.get('nome')
+        Locadora.cadastrar_fabricante(nome_fabricante)
+        return redirect('/carros')

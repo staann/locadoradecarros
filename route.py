@@ -141,7 +141,7 @@ def logout():
 
 @app.route('/processa_cadastro', methods=['POST'])
 def efetua_cadastro():
-    return ctl.render('processar_cadastro')
+    return ctl.render('processar_cadastro_carro')
 
 
     '''
@@ -196,6 +196,15 @@ def alterar_informacoes(id):
 @app.route('/processar_alteracao_informacoes_usuario', methods = ['POST'])
 def processar_alteracao_informacoes_usuario():
     return ctl.render('processar_alteracao_informacoes_usuario')
+
+
+@app.route('/cadastrar_novo_fabricante')
+def cadastrar_novo_fabricante():
+    return ctl.render('cadastrar_novo_fabricante')
+
+@app.route('/processar_cadastro_novo_fabricante', methods=['POST'])
+def processar_cadastro_novo_fabricante():
+    return ctl.render('processar_cadastro_novo_fabricante')
 
 '''
 @app.route('/agradecimento')

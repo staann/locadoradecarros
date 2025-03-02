@@ -2,6 +2,7 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 from flask import Response
+
 from app.models.carro import Carro
 from app.models.usuario import Usuario
 from app.models.aluguel import Aluguel
@@ -73,6 +74,14 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS tabelaimagem (
     imagemblob BLOB,
     imagemnome TEXT)''')
 
+
+cursor.execute(
+    f'CREATE TABLE IF NOT EXISTS fabricantes'
+    '('
+    'id INTEGER PRIMARY KEY AUTOINCREMENT,'
+    'fabricante TEXT'
+    ')'
+)
 
 connection.commit()
 
@@ -381,6 +390,43 @@ def mostrar_blob(id_imagem):
     cursor.close()
     connection.close()
     return image
+
+def cadastrar_fabricante(nome_fabricante):
+    nome = nome_fabricante.upper()
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    params = (nome,)
+    sql = 'INSERT INTO fabricantes (fabricante) VALUES (?)'
+    cursor.execute(sql,params)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+def checar_fabricante_existe(nome_fabricante):
+    nome = nome_fabricante.upper()
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    sql = f'SELECT fabricante FROM fabricantes WHERE email = "{nome}"'
+    cursor.execute(sql)
+    resultado = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    if resultado == None:
+        return True
+    
+    else:
+        return False
+
+
+def selecionar_fabricantes():
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    sql = 'SELECT * from fabricantes'
+    cursor.execute(sql)
+    fabricantes = cursor.fetchall()
+    connection.close()
+    print(fabricantes)
+    return fabricantes
 
 
 

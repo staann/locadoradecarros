@@ -12,8 +12,14 @@
         </div>
 
         <div class="mb-3">
-            <label for="Marca" class="form-label">Marca</label>
-            <input type="text" class="form-control" id="marca" name="marca" required value={{carro.marca}}>
+            <label for="marca">Fabricante:</label>
+            <select id="marca" name="marca" required>
+                <option value="">Selecione uma opção</option>
+                {% for id, fabricante in fabricantes %}
+                    <option value="{{ id }}">{{ fabricante }}</option>
+                {% endfor %}
+            </select>
+            <a href="/cadastrar_novo_fabricante" class="btn btn-link">Cadastrar novo fabricante</a>
         </div>
         <div class="mb-3">
             <label for="modelo" class="form-label">Modelo</label>
@@ -42,10 +48,6 @@
             <label class="form-check-label" for="disponivel">Disponível para locação</label>
         </div>
 
-        <div class="mb-3">
-            <label for="image" class="form-label">Escolha uma imagem</label>
-            <input type="file" class="form-control" id="image" name="image" required>
-        </div>
         
         <button type="submit" class="btn btn-primary">Cadastrar Carro</button>
     </form>
