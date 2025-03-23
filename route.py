@@ -25,49 +25,6 @@ def serve_static(filepath):
 @app.route('/helper')
 def helper(info= None):
     return ctl.render('helper')
-'''
-@socketio.on('message')
-def handle_message(msg):
-    print('Mensagem recebida: ' + msg)
-    send(msg, broadcast=True,include_self=False)
-'''
-@socketio.on("connect")
-def handle_connect():
-    user_id = request.sid  # ID único da conexão do usuário
-    connected_users[user_id] = user_id  # Adiciona à lista
-    print(f"Usuário {user_id} conectado")
-
-@socketio.on("disconnect")
-def handle_disconnect():
-    user_id = request.sid
-    connected_users.pop(user_id, None)  # Remove da lista
-    print(f"Usuário {user_id} desconectado")
-
-@socketio.on("chatMessage")
-def handle_message(data):
-    sender_id = request.sid  # Identifica quem enviou a mensagem
-    message = data["message"]
-
-    # Escolher um destinatário aleatório (que não seja o próprio remetente)
-    possible_receivers = [uid for uid in connected_users if uid != sender_id]
-    if possible_receivers:
-        receiver_id = random.choice(possible_receivers)
-        emit("receiveMessage", {"message": message, "from": sender_id}, room=receiver_id)
-        print(f"Mensagem de {sender_id} enviada para {receiver_id}")
-    else:
-        emit("systemMessage", "Nenhum usuário disponível para receber a mensagem.", room=sender_id)
-
-@socketio.on("replyMessage")
-def handle_reply(data):
-    sender_id = request.sid
-    original_sender_id = data["to"]  # Para quem essa resposta deve ser enviada
-    message = data["message"]
-
-    if original_sender_id in connected_users:
-        emit("receiveMessage", {"message": message, "from": sender_id}, room=original_sender_id)
-        print(f"Resposta de {sender_id} enviada para {original_sender_id}")
-    else:
-        emit("systemMessage", "Usuário original não está mais online.", room=sender_id)
 
 
 #-----------------------------------------------------------------------------
@@ -94,6 +51,10 @@ def mostra_form_cadastro_carros(id=None):
 @app.route('/processar_cadastro_carro', methods=['POST'])
 def processar_cadastro_carro():
     return ctl.render('processar_cadastro_carro')
+
+@app.route('/obter_modelos/<int:id_fabricante>', methods=['GET'])
+def obter_modelos(id_fabricante):
+    return ctl.render('obter_modelos',id_fabricante)
 
 @app.route('/upload_imagem/<id_carro>', methods=['GET','POST'])
 def upload_imagem(id_carro):
@@ -205,6 +166,21 @@ def cadastrar_novo_fabricante():
 @app.route('/processar_cadastro_novo_fabricante', methods=['POST'])
 def processar_cadastro_novo_fabricante():
     return ctl.render('processar_cadastro_novo_fabricante')
+
+
+@app.route('/cadastrar_novo_modelo')
+def cadastrar_novo_modelo():
+    return ctl.render('cadastrar_novo_modelo')
+
+@app.route('/processar_cadastro_novo_modelo', methods = ['POST'])
+def processar_cadastro_novo_modelo():
+    return ctl.render('processar_cadastro_novo_modelo')
+
+
+@app.route('/buscar_modelos', methods=['POST'])
+def buscar_modelos():
+    return ctl.render('buscar_modelos')
+
 
 '''
 @app.route('/agradecimento')

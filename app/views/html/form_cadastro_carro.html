@@ -13,7 +13,7 @@
 
         <div class="mb-3">
             <label for="marca">Fabricante:</label>
-            <select id="marca" name="marca" required>
+            <select class="form-control" id="marca" name="marca" required onchange="carregarModelos(this.value)">
                 <option value="">Selecione uma opção</option>
                 {% for id, fabricante in fabricantes %}
                     <option value="{{ id }}">{{ fabricante }}</option>
@@ -22,8 +22,11 @@
             <a href="/cadastrar_novo_fabricante" class="btn btn-link">Cadastrar novo fabricante</a>
         </div>
         <div class="mb-3">
-            <label for="modelo" class="form-label">Modelo</label>
-            <input type="text" class="form-control" id="modelo" name="modelo" required value={{carro.modelo}}>
+            <label for="modelo">Modelo:</label>
+            <select class="form-control" id="modelo" name="modelo" required>
+                <option value="">Selecione um fabricante primeiro</option>
+            </select>
+            <a href="/cadastrar_novo_modelo" class="btn btn-link">Cadastrar novo modelo</a>
         </div>
         <div class="mb-3">
             <label for="ano" class="form-label">Ano</label>
@@ -55,4 +58,25 @@
     <a href="/carros" class="btn btn-link">Voltar para a lista de carros</a>
 </div>
 
+<script>
+    function carregarModelos(id_fabricante) {
+        if (id_fabricante) {
+            fetch(`/obter_modelos/${id_fabricante}`)
+                .then(response => response.json())
+                .then(data => {
+                    const modeloSelect = document.getElementById('modelo');
+                    modeloSelect.innerHTML = '<option value="">Selecione um modelo</option>';
+                    data.forEach(modelo => {
+                        const option = document.createElement('option');
+                        option.value = modelo.id;
+                        option.textContent = modelo.modelo;
+                        modeloSelect.appendChild(option);
+                    });
+                });
+        } else {
+            const modeloSelect = document.getElementById('modelo');
+            modeloSelect.innerHTML = '<option value="">Selecione um fabricante primeiro</option>';
+        }
+    }
+    </script>
 {%endblock content%}

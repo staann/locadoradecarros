@@ -95,3 +95,14 @@ class Locadora:
     @staticmethod
     def selecionar_fabricantes():
         return db.selecionar_fabricantes()
+    
+
+    @staticmethod
+    def cadastrar_novo_modelo(id_fabricante,modelo):
+        db.cadastrar_novo_modelo(id_fabricante,modelo)
+
+
+    @staticmethod
+    def obter_modelos_por_fabricante(id_fabricante):
+        return db.obter_modelos_por_fabricante(id_fabricante)
+    

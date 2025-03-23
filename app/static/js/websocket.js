@@ -3,12 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const messagesDiv = document.getElementById("messages");
     const messageInput = document.getElementById("message-input");
-    //const chatContainer = document.getElementById("chat-container");
     const chatBox = document.getElementById("chat-box");
     const toggleChatButton = document.getElementById("toggle-chat");
+    const chatHeader = document.getElementById("chat-header");
 
-
-    let isChatOpen = true
+    let isChatOpen = false; // Inicialmente o chat está fechado
     let lastSender = null; // Armazena o remetente para resposta
 
     function addMessage(message, isUser = false) {
@@ -49,12 +48,24 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.on("systemMessage", function (msg) {
         addMessage(`⚠️ ${msg}`, false);
     });
-    
+
     // Botão para minimizar/maximizar o chat
-    toggleChatButton.addEventListener("click", function () {
+    toggleChatButton.addEventListener("click", function (e) {
+        e.stopPropagation(); // Impede que o evento de clique no cabeçalho seja acionado
+        toggleChat();
+    });
+
+    // Clicar no cabeçalho para abrir/fechar o chat
+    chatHeader.addEventListener("click", function () {
+        toggleChat();
+    });
+
+    function toggleChat() {
         isChatOpen = !isChatOpen;
         chatBox.style.display = isChatOpen ? "flex" : "none";
         toggleChatButton.textContent = isChatOpen ? "-" : "+";
-    });
-    
+    }
+
+    // Inicializa o chat fechado
+    toggleChat(); // Fecha o chat ao carregar a página
 });

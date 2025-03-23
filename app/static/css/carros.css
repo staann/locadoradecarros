@@ -129,3 +129,104 @@ table{
     justify-content: center;
     align-items: center;
 }
+
+
+/* Estilo geral da página */
+.body2carros {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo do título */
+.h2carros {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+/* Estilo da tabela */
+.tablecarros {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Estilo do cabeçalho da tabela */
+.tablecarros thead tr {
+    background-color: #007bff;
+    color: #fff;
+    text-align: left;
+}
+
+/* Estilo das células do cabeçalho */
+.tablecarros th {
+    padding: 15px;
+    font-size: 1.2em;
+}
+
+/* Estilo das células da tabela */
+.tablecarros td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Estilo das linhas da tabela */
+.tablecarros tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilo dos links de ação */
+.tablecarros a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.tablecarros a:hover {
+    color: #0056b3;
+}
+
+/* Estilo do ícone de lixeira */
+.fa-trash:hover {
+    color: #dc3545 !important;
+}
+
+/* Estilo do ícone de câmera */
+.fa-camera:hover {
+    color: #28a745 !important;
+}
+
+/* Estilo do ícone de carro */
+.fa-car:hover {
+    color: #17a2b8 !important;
+}
+
+/* Estilo do ícone de relógio */
+.fa-clock-o:hover {
+    color: #ffc107 !important;
+}
+
+/* Estilo do ícone de lápis */
+.fa-pencil:hover {
+    color: #6c757d !important;
+}
+
+/* Estilo do link de cadastro */
+a[href="/mostra_form_cadastro_carros"] {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+a[href="/mostra_form_cadastro_carros"]:hover {
+    background-color: #0056b3;
+}

@@ -1,11 +1,21 @@
 {% extends "menu.html" %}
 {% block extra_css %}
-    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/carros.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/carros.css') }}">
 {% endblock %}
-{%block content%}
-    <div style="text-align: center;" >
-        <h2>Listagem dos carros</h2>
-        <table class="table" width="200px" align="center" border="1">
+{% block content %}
+    <div class="body2carros" style="text-align: center;">
+        <h2 class="h2carros">Listagem dos carros</h2>
+
+        <!-- Box de seleção de categorias -->
+        <label for="categoria">Selecione a categoria:</label>
+        <select id="categoria" onchange="filtrarPorCategoria()">
+            <option value="Todas">Todas</option>
+            <option value="Luxo">Luxo</option>
+            <option value="SUV">SUV</option>
+            <option value="Economica">Econômica</option>
+        </select>
+
+        <table class="tablecarros" width="80%" align="center">
             <thead>
                 <tr>
                     <th>Fabricante</th>
@@ -19,24 +29,34 @@
             </thead>
             <tbody>
                 {% for carro in carros %}
-                    <tr>
+                    <tr data-categoria="{{ carro.categoria }}">
                         <td>{{ carro.marca }}</td>
                         <td>{{ carro.modelo }}</td>
                         <td>{{ carro.ano }}</td>
                         <td>{{ carro.categoria }}</td>
                         <td>{{ carro.preco_por_dia }}</td>
-                        <td>{{'Disponivel' if carro.status else 'Indisponivel'}}</td>
+                        <td>{{ 'Disponivel' if carro.status else 'Indisponivel' }}</td>
                         <td>
                             {% if session['usuario_logado']['admin'] %}
-                                <a href="/mostra_form_cadastro_carros/{{carro.id}}"><i class="fa fa-pencil fa-lg  mr-3" style="color: black" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alterar carro"></i></a>  
-                                <a href="/processar_exclusao_carro/{{carro.id}}"><i class="fa fa-trash fa-lg  mr-3" style="color: black" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deletar carro" ></i></a> 
-                                <a href="{{ url_for('lista_historico', id=carro.id) }}"><i class="fa fa-clock-o fa-lg  mr-3" style="color: black" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Historico do carro" ></i></a> 
-                                <a href = "/upload_imagem/{{carro.id}}"><i class="fa fa-camera" style="color: black" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Upload de Imagem"></i></a>
-                                {% endif %}
-                            {% if carro.status %}
-                                <a href="{{ url_for('aluguel_carro', id=carro.id) }}"><i class="fa fa-car fa-lg  mr-3" style="color: black" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alugar carro" ></i></a> 
+                                <a href="/mostra_form_cadastro_carros/{{ carro.id }}">
+                                    <i class="fa fa-pencil fa-lg mr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alterar carro"></i>
+                                </a>
+                                <a href="/processar_exclusao_carro/{{ carro.id }}">
+                                    <i class="fa fa-trash fa-lg mr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deletar carro"></i>
+                                </a>
+                                <a href="{{ url_for('lista_historico', id=carro.id) }}">
+                                    <i class="fa fa-clock-o fa-lg mr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Historico do carro"></i>
+                                </a>
+
                             {% endif %}
-                            
+                            {% if carro.status %}
+                                <a href="{{ url_for('aluguel_carro', id=carro.id) }}">
+                                    <i class="fa fa-car fa-lg mr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alugar carro"></i>
+                                </a>
+                                <a href="/upload_imagem/{{ carro.id }}">
+                                    <i class="fa fa-camera" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Upload de Imagem"></i>
+                                </a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -44,4 +64,7 @@
         </table>
         <a href="/mostra_form_cadastro_carros">Cadastrar novo carro</a>
     </div>
-{%endblock content%}
+
+    <!-- Vincular o arquivo JavaScript externo -->
+    <script src="{{ url_for('static', filename='js/selecCategoria.js') }}"></script>
+{% endblock %}

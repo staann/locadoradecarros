@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 from pathlib import Path
-from flask import Response
+from flask import Response,jsonify
 
 from app.models.carro import Carro
 from app.models.usuario import Usuario
@@ -83,6 +83,18 @@ cursor.execute(
     ')'
 )
 
+
+cursor.execute(
+    f'CREATE TABLE IF NOT EXISTS modelos'
+    '('
+    'id INTEGER PRIMARY KEY AUTOINCREMENT,'
+    'id_fabricante INTEGER,'
+    'modelo TEXT'
+    ')'
+)
+
+
+
 connection.commit()
 
 cursor.close()
@@ -125,11 +137,26 @@ def listar_carros():
 
     cursor.execute('SELECT id,marca, modelo, ano,categoria, diaria, status FROM carros')
     linhas_db=cursor.fetchall()
-#    for linha in linhas_db:
-#        print(linha)
+    print(linhas_db)
+    novo = []
+    for linha in linhas_db:
+        linha = list(linha)
+        id = linha[1]
+        modelo = linha[2]
+        fabricante = encontrar_fabricante_por_id(id)[0]
+        #print(f'AQUI ESTA A TUPLA DO MODELO: {encontrar_modelo_por_id(modelo)}')
+        modelo = encontrar_modelo_por_id(modelo)[0]
+        linha[1] = fabricante
+        linha[2]= modelo.upper()
+
+        print(linha[1])
+        print(linha[2])
+        linha = tuple(linha)
+        novo.append(linha)
+        #print(linha)
     cursor.close()
     connection.close()
-    lista_carros=[Carro(*linha) for linha in linhas_db]
+    lista_carros=[Carro(*linha) for linha in novo]
 
  #   for carro in lista_carros:
  #       print(*carro.marca)
@@ -159,7 +186,7 @@ def obtem_carro_por_id(id):
 #    for linha in linhas_db:
 #        print(linha)
     cursor.close()
-    connection.close()
+    connection.close() 
 
     #linhas_db so retornara uma linha pois o id é unico.
     lista_carros=[Carro(*linha) for linha in linhas_db]
@@ -330,15 +357,18 @@ def listar_historico_usuario(id_usuario):
         )
         for linha in resultado
     ]
-
+    print(resultado)
     lista_id_carro=[]
 
     for linha in resultado:
+        print(linha)
+        #print(linha[0])
         carro_obtido = obtem_carro_por_id(str(linha[0]))
+        print(f'{carro_obtido.ano}')
         #lista_id_carro.append(carro_obtido.marca)
         #print(carro_obtido.modelo)
         #lista_id_carro.append((carro_obtido.modelo,carro_obtido.categoria))
-        lista_historico.append((carro_obtido.modelo,carro_obtido.categoria))
+        lista_historico.append(((encontrar_modelo_por_id(carro_obtido.modelo)[0]),carro_obtido.categoria))
         #print(linha[0])
     #print(lista_id_carro)
 
@@ -427,6 +457,46 @@ def selecionar_fabricantes():
     connection.close()
     print(fabricantes)
     return fabricantes
+
+def encontrar_fabricante_por_id(id_fabricante):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    sql = f'SELECT fabricante FROM fabricantes WHERE id = "{id_fabricante}"'
+    cursor.execute(sql)
+    resultado = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    print(resultado)
+    return resultado
+
+
+def cadastrar_novo_modelo(id_fabricante,nome_modelo):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    params = (id_fabricante,nome_modelo)
+    sql = f'INSERT INTO modelos (id_fabricante,modelo) VALUES (?,?)',params
+    cursor.execute(*sql)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def obter_modelos_por_fabricante(id_fabricante):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    cursor.execute('SELECT id, modelo FROM modelos WHERE id_fabricante = ?', (id_fabricante,))
+    modelos = cursor.fetchall()
+    connection.close()
+    return [{'id': modelo[0], 'modelo': modelo[1]} for modelo in modelos]
+
+
+def encontrar_modelo_por_id(id):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    cursor.execute('SELECT modelo FROM modelos WHERE id = ?', (id,))
+    modelo = cursor.fetchone()
+    connection.close()
+    return modelo
 
 
 

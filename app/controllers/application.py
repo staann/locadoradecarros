@@ -25,7 +25,10 @@ class Application():
         'alterar_informacoes_usuario' : self.alterar_informacoes_usuario, 
         'processar_alteracao_informacoes_usuario' : self.processar_alteracao_informacoes_usuario,
         'upload_imagem': self.upload_imagem, 'cadastrar_novo_fabricante': self.cadastrar_novo_fabricante,
-        'processar_cadastro_novo_fabricante': self.processar_cadastro_novo_fabricante
+        'processar_cadastro_novo_fabricante': self.processar_cadastro_novo_fabricante,
+        'cadastrar_novo_modelo': self.cadastrar_novo_modelo, 
+        'processar_cadastro_novo_modelo': self.processar_cadastro_novo_modelo,
+        'obter_modelos': self.obter_modelos
 
         }
 
@@ -208,3 +211,27 @@ class Application():
         nome_fabricante = request.form.get('nome')
         Locadora.cadastrar_fabricante(nome_fabricante)
         return redirect('/carros')
+
+
+    def cadastrar_novo_modelo(self):
+        fabricantes = Locadora.selecionar_fabricantes()
+        print('AQUI')
+        print(fabricantes)
+        for id,fabricante in fabricantes:
+            print(f'{id} e {fabricante}')
+        return render_template('cadastrar_novo_modelo.html', fabricantes = fabricantes)
+    
+
+    def processar_cadastro_novo_modelo(self):
+        id_fabricante = request.form.get('id_fabricante')
+        novo_modelo = request.form.get('nome_modelo')
+        Locadora.cadastrar_novo_modelo(id_fabricante,novo_modelo)
+        return redirect('/carros')
+    
+
+    def obter_modelos(self,id_fabricante):
+        modelos = Locadora.obter_modelos_por_fabricante(id_fabricante)
+        return jsonify(modelos)
+
+    
+    
